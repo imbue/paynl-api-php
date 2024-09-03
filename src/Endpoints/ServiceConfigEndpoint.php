@@ -23,15 +23,18 @@ class ServiceConfigEndpoint extends AbstractEndpoint
     }
 
     /**
-     * @param $id
-     * @return Service
+     * @return \Imbue\Paynl\Resources\AbstractResource
      * @throws ApiException
      */
     public function get()
     {
+        $apiMethod = "{$this->getResourcePath()}" . $this->buildQueryString([
+                'serviceId' => $this->getSlCode()
+            ]);
+
         $result = $this->client->performHttpCall(
             self::REST_READ,
-            "{$this->getResourcePath()}/{$this->getSlCode()}"
+            $apiMethod
         );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject(), $this->getSingleResourceKey());
