@@ -132,7 +132,7 @@ class ApiClientTest extends TestCase
             ->willReturn($response);
 
         $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('Error executing API call: Authentication is needed to access this resource (). Error code: PAY-1401');
+        $this->expectExceptionMessage('Error executing API call: Authentication is needed to access this resource. Error code: PAY-1401');
 
         $this->paynlClient->performHttpCall('GET', 'services/config');
     }
@@ -162,5 +162,38 @@ class ApiClientTest extends TestCase
         $this->expectExceptionMessage('Error executing API call: Access denied (The following permission is missing data.payment_methods). Error code: PAY-1403');
 
         $this->paynlClient->performHttpCall('GET', 'services/config');
+    }
+
+    public function testSeeResponseWith500Response()
+    {
+        $response = new Response(500, [], '{
+    "type": "https://developer.pay.nl/docs/error-codes"
+}');
+        $this->guzzleClient
+            ->method('send')
+            ->willReturn($response);
+
+        try {
+            $this->paynlClient->performHttpCall('GET', 'services/config');
+        } catch (\Exception $exception) {
+            $this->assertEquals('Error executing API call: ', $exception->getMessage());
+            $this->assertEquals(500, $exception->getCode());
+        }
+    }
+
+    public function testSeeResponseWith503Response()
+    {
+        $response = new Response(503, [], '');
+
+        $this->guzzleClient
+            ->method('send')
+            ->willReturn($response);
+
+        try {
+            $this->paynlClient->performHttpCall('GET', 'services/config');
+        } catch (\Exception $exception) {
+            $this->assertEquals('Empty response body returned.', $exception->getMessage());
+            $this->assertEquals(503, $exception->getCode());
+        }
     }
 }

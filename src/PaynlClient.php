@@ -167,13 +167,13 @@ class PaynlClient
                 return null;
             }
 
-            throw new ApiException('Empty response body returned.');
+            throw new ApiException('Empty response body returned.', $response->getStatusCode());
         }
 
         $object = @json_decode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode response: '{$body}'.");
+            throw new ApiException("Unable to decode response: '{$body}'.", $response->getStatusCode());
         }
 
         if ($response->getStatusCode() >= 400) {

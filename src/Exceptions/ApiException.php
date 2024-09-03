@@ -85,8 +85,18 @@ class ApiException extends Exception
             }
         }
 
+        $message = 'Error executing API call: ';
+
+        if (!empty($object->title)) {
+            $message .= "{$object->title}";
+        }
+
+        if (!empty($object->detail)) {
+            $message .= " ({$object->detail})";
+        }
+
         return new static(
-            "Error executing API call: {$object->title} ({$object->detail})",
+            $message,
             $response->getStatusCode(),
             $errorCode,
             $response,
