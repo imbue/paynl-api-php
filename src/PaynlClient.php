@@ -42,8 +42,7 @@ class PaynlClient
      */
     public function __construct(ClientInterface $httpClient = null)
     {
-        $this->httpClient = $httpClient ?
-            $httpClient :
+        $this->httpClient = $httpClient ?:
             new Client([
                 RequestOptions::TIMEOUT => self::TIMEOUT,
             ]);
@@ -130,9 +129,14 @@ class PaynlClient
         $userAgent = implode(' ', $this->versionStrings);
 
         $headers = [
+            'Accept' => 'application/json',
             'Authorization' => "Basic {$this->getBasicToken()}",
             'User-Agent' => $userAgent,
         ];
+
+        if ($httpBody !== null) {
+            $headers['Content-Type'] = "application/json";
+        }
 
         if (function_exists('php_uname')) {
             $headers['X-Pay.nl-Client-Info'] = php_uname();
