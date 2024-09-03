@@ -1,8 +1,9 @@
 <h1 align="center">Pay.nl API client for PHP</h1>
 
+> > This SDK is NOT production ready yet. Please do not use it in production.
+
 Unofficial PHP SDK for the Pay.nl API.
 
-> This SDK is NOT production ready yet. Please do not use it in production.
 
 ## Installation
 
