@@ -1,0 +1,37 @@
+{
+  "name": "imbue/paynl-api-php",
+  "description": "Pay.nl API client library for PHP. Pay.nl is an all-in-one payment provider for receiving online and in-store payments",
+  "keywords": [
+    "php",
+    "pay.nl",
+    "paynl",
+    "payment",
+    "payment software",
+    "payment provider"
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/imbue/paynl-api-php",
+  "require": {
+    "php": "^7.4 || ^8.0 || ^8.1 || ^8.2",
+    "guzzlehttp/guzzle": "~4.0|~5.0|~6.0|~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^10.1"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Imbue\\Paynl\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit tests"
+  }
+}
